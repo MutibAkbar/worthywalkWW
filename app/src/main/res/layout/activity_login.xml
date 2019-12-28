@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,9 +11,9 @@
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
         android:alpha="0.5"
-        >
 
-    </RelativeLayout>
+
+        ></RelativeLayout>
     <ProgressBar
         android:id="@+id/pbLoading"
         android:visibility="gone"
@@ -33,8 +32,9 @@
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logowh1"
-            />
+
+
+            app:srcCompat="@drawable/logowh1" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,8 +44,8 @@
             android:textSize="27sp"
             android:layout_alignTop="@+id/imageView3"
             android:layout_alignLeft="@+id/imageView3"
-            android:layout_marginTop="50dp"
-            />
+
+            android:layout_marginTop="50dp" />
     </LinearLayout>
 
     <RelativeLayout
@@ -70,6 +70,7 @@
             android:orientation="vertical"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+
             >
             <EditText
                 android:layout_width="match_parent"
@@ -92,8 +93,7 @@
                 android:padding="10dp"
                 android:inputType="textPassword"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                />
+                android:layout_marginLeft="10dp"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -150,15 +150,16 @@
 
 
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="280dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"
-        android:background="@color/com_facebook_blue"
-        android:text="LOGIN WITH FACEBOOK"
-        android:layout_below="@+id/id_pass_layout"
-        android:layout_marginBottom="30dp" />
+<!--    <com.facebook.login.widget.LoginButton-->
+
+<!--        android:id="@+id/login_button"-->
+<!--        android:layout_width="280dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:background="@color/com_facebook_blue"-->
+<!--        android:text="LOGIN WITH FACEBOOK"-->
+<!--        android:layout_below="@+id/id_pass_layout"-->
+<!--        android:layout_marginBottom="30dp" />-->
 
 </RelativeLayout>
