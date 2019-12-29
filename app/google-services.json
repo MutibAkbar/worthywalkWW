@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "106202465201",
+    "firebase_url": "https://worthywalktest.firebaseio.com",
+    "project_id": "worthywalktest",
+    "storage_bucket": "worthywalktest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106202465201:android:ed618392a5539878fb3390",
+        "android_client_info": {
+          "package_name": "com.example.wothywalkww"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106202465201-req7vrn7835ahvkna9lip776rn71a7jh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wothywalkww",
+            "certificate_hash": "78fbae6ef771a4226a71f74ea244c8ada8d0646b"
+          }
+        },
+        {
+          "client_id": "106202465201-gtisppa4kueujgolkl8vfcgk66pok6fr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCte0RfN5tifZrhXAkfJSprKRVJ3ULe_CI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106202465201-gtisppa4kueujgolkl8vfcgk66pok6fr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

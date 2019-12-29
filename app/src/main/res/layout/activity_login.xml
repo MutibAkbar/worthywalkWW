@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -150,16 +152,16 @@
 
 
 
-<!--    <com.facebook.login.widget.LoginButton-->
+    <com.facebook.login.widget.LoginButton
 
-<!--        android:id="@+id/login_button"-->
-<!--        android:layout_width="280dp"-->
-<!--        android:layout_height="80dp"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:background="@color/com_facebook_blue"-->
-<!--        android:text="LOGIN WITH FACEBOOK"-->
-<!--        android:layout_below="@+id/id_pass_layout"-->
-<!--        android:layout_marginBottom="30dp" />-->
+        android:id="@+id/login_button"
+        android:layout_width="280dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="30dp"
+        android:background="@color/com_facebook_blue"
+        android:text="LOGIN WITH FACEBOOK"
+        android:layout_below="@+id/id_pass_layout"
+        android:layout_marginBottom="30dp" />
 
 </RelativeLayout>

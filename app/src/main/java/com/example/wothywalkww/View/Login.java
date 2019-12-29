@@ -37,6 +37,7 @@ public class Login extends AppCompatActivity {
     private ProgressBar pbloading;
 
     CallbackManager callbackManager ;
+    public static String TAG="facebook login";
     Fbuser fBuser;
     private static final String EMAIL = "email";
     User user = new User();
@@ -45,15 +46,15 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         MultiDex.install(this);
+        callbackManager = CallbackManager.Factory.create();
         emailAddress =(EditText)findViewById(R.id.emailAddress);
         password =(EditText) findViewById(R.id.password);
         btSignin =(Button) findViewById(R.id.btSignIn);
         forgot =(TextView) findViewById(R.id.forgot);
         signUp =(TextView) findViewById(R.id.login_signup);
-//        loginButton =(LoginButton) findViewById(R.id.login_button);
-//        loginButton.setPermissions(Arrays.asList(EMAIL,"public_profile"));
+        loginButton =(LoginButton) findViewById(R.id.login_button);
+        loginButton.setPublishPermissions(Arrays.asList(EMAIL,"public_profile"));
         pbloading =(ProgressBar) findViewById(R.id.pbLoading);
 
         forgot.setOnClickListener(new View.OnClickListener() {
@@ -69,28 +70,28 @@ public class Login extends AppCompatActivity {
             }
         });
 
-//        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-//
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-//                // App code
-//                pbloading.setVisibility(View.VISIBLE);
-//
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                // App code
-//                Toast.makeText(getApplicationContext(),"User Canceled",Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onError(FacebookException exception) {
-//                // App code
-//
-//                Toast.makeText(getApplicationContext(),exception.getMessage(),Toast.LENGTH_LONG).show();
-//            }
-//        });
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                pbloading.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+                Toast.makeText(getApplicationContext(),"User Canceled",Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+
+                Toast.makeText(getApplicationContext(),exception.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
