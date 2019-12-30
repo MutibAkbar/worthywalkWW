@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Register extends AppCompatActivity implements TextWatcher {
+public class Register extends AppCompatActivity implements TextWatcher{
 
     private EditText firstname;
     private EditText lastname;
@@ -33,7 +33,7 @@ public class Register extends AppCompatActivity implements TextWatcher {
     private FloatingActionButton go;
     private ProgressBar pbloading;
     private CircleImageView profile_picture;
-    StringBuilder dateOfBirth=new StringBuilder();
+    StringBuilder dateOfBirth = new StringBuilder();
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     SharedPreferences sharedpreferences;
@@ -204,4 +204,6 @@ public class Register extends AppCompatActivity implements TextWatcher {
     public void afterTextChanged(Editable s) {
 
     }
+
+
 }

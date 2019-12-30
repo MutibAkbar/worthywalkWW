@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">wothywalkWW</string>
 
-    <string name="facebook_app_id">2868514986525815</string>
-    <string name="fb_login_protocol_scheme">fb2868514986525815</string>
+    <string name="facebook_app_id">1457513107721060</string>
+    <string name="fb_login_protocol_scheme">fb1457513107721060</string>
+    <string name="default_notification_channel_id">exampleServiceChannel</string>
 
     <string-array name="gender">
         <item>Male</item>

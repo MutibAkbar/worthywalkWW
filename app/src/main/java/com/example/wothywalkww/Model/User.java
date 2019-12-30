@@ -1,8 +1,9 @@
 package com.example.wothywalkww.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
 
     public String firstName;
     public String lastName;
@@ -19,6 +20,27 @@ public class User {
     public boolean permission;
     public String token;
 
+    public User(String firstName,String lastName,String gender,float height,float weight,int age,Date dob,int knubs,String imageUrl,String email,
+                String password,int totalKnubs,boolean permission,String token){
+
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.gender=gender;
+        this.height=height;
+        this.weight=weight;
+        this.age=age;
+        this.dob=dob;
+        this.knubs=knubs;
+        this.imageUrl=imageUrl;
+        this.email=email;
+        this.password=password;
+        this.totalKnubs=totalKnubs;
+        this.permission=permission;
+        this.token=token;
+    }
+    public User(){
+
+    }
     public String getFirstname() {
         return firstName;
     }
