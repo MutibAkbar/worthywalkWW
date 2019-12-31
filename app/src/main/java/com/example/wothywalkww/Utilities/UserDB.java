@@ -195,6 +195,10 @@ public class UserDB {
                 });
     }
 
+    public void setdata(User user){
+
+
+    }
 
     public void signOut(){
         mAuth.signOut();
