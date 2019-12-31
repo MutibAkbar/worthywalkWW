@@ -18,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.AuthResult;
 
 import static androidx.core.content.ContextCompat.startActivity;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class Signup extends AppCompatActivity {
 
@@ -32,7 +33,7 @@ public class Signup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        final UserDB userdb = new UserDB();
+
         emailid = (EditText) findViewById(R.id.emailid);
         password1 = (EditText) findViewById(R.id.password1);
         password2 = (EditText) findViewById(R.id.password2);
@@ -41,16 +42,18 @@ public class Signup extends AppCompatActivity {
         reg1_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (emailid.getText().toString().trim() == null || password1.getText().toString().trim() == null || password2.getText().toString().trim() == null) {
-
+                if (emailid.getText().toString().isEmpty() || password1.getText().toString().isEmpty() || password2.getText().toString().isEmpty()){
                     Toast.makeText(Signup.this, "Error Please enter the credentials", Toast.LENGTH_SHORT).show();
-                } else {
-                      String id, p1, p2;
-                      id = emailid.getText().toString();
-                    p1 = password1.getText().toString();
-                    p2 = password2.getText().toString();
-                    boolean flag = userdb.signUp(id, p1, p2);
-                    if (flag) {
+                }else {
+                    String id, p1, p2;
+                    id=emailid.getText().toString().trim();
+                    p1=password1.getText().toString().trim();
+                    p2=password2.getText().toString().trim();
+                    UserDB userdb = new UserDB();
+                    boolean flag = false;
+                    flag=userdb.signUp(id, p1, p2);
+                    if (flag==false) {
+
                         Email = id;
                         Intent i = new Intent(Signup.this, Register.class);
                         i.putExtra("AfterLogin", "false");
@@ -64,14 +67,6 @@ public class Signup extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
-
-
 
 
 }

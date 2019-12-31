@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class Register extends AppCompatActivity implements TextWatcher{
+public class Register extends AppCompatActivity {
 
     private EditText firstname;
     private EditText lastname;
@@ -47,163 +47,163 @@ public class Register extends AppCompatActivity implements TextWatcher{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        firstname =(EditText) findViewById(R.id.firstname);
-        lastname =(EditText) findViewById(R.id.lastname);
-        height=(EditText) findViewById(R.id.height);
-        weight=(EditText) findViewById(R.id.weight);
-        day= (EditText) findViewById(R.id.day);
-        month=(EditText) findViewById(R.id.month);
-        year =(EditText) findViewById(R.id.year);
-        go=(FloatingActionButton) findViewById(R.id.go);
+        firstname = (EditText) findViewById(R.id.firstname);
+        lastname = (EditText) findViewById(R.id.lastname);
+        height = (EditText) findViewById(R.id.height);
+        weight = (EditText) findViewById(R.id.weight);
+        day = (EditText) findViewById(R.id.day);
+        month = (EditText) findViewById(R.id.month);
+        year = (EditText) findViewById(R.id.year);
+        go = (FloatingActionButton) findViewById(R.id.go);
+//
+//        firstname.addTextChangedListener(this);
+//        lastname.addTextChangedListener(this);
+//        height.addTextChangedListener(this);
+//        weight.addTextChangedListener(this);
 
-        firstname.addTextChangedListener(this);
-        lastname.addTextChangedListener(this);
-        height.addTextChangedListener(this);
-        weight.addTextChangedListener(this);
-
-        day.addTextChangedListener(new TextWatcher(){
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if(dateOfBirth.length()==0&day.length()==2)
-                {
-                    dateOfBirth.append(s);
-                    day.clearFocus();
-                    month.requestFocus();
-                    month.setCursorVisible(true);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                if(dateOfBirth.length()==2)
-                {
-                    dateOfBirth.deleteCharAt(0);
-                    dateOfBirth.deleteCharAt(1);
-                }
-
-            }
-
-            public void afterTextChanged(Editable s) {
-                if(dateOfBirth.length()==0)
-                {
-                    day.requestFocus();
-                }
-
-            }
-        });
-
-        month.addTextChangedListener(new TextWatcher(){
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if(month.length()==2)
-                {
-                    dateOfBirth.append(s);
-                    month.clearFocus();
-                    year.requestFocus();
-                    year.setCursorVisible(true);
-
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if(dateOfBirth.length()==2)
-                {
-                    dateOfBirth.deleteCharAt(0);
-                }
-
-            }
-
-            public void afterTextChanged(Editable s) {
-                if(dateOfBirth.length()==0)
-                {
-                    month.requestFocus();
-                }
-
-            }
-        });
-        year.addTextChangedListener(new TextWatcher(){
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
-                if(year.length()==4)
-                {
-                    dateOfBirth.append(s);
-                    month.clearFocus();
-                    year.requestFocus();
-                    year.setCursorVisible(true);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                if(dateOfBirth.length()==2)
-                {
-                    dateOfBirth.deleteCharAt(0);
-
-                }
-
-            }
-
-            public void afterTextChanged(Editable s) {
-                if(dateOfBirth.length()==0)
-                {
-                    month.requestFocus();
-                }
-
-            }
-        });
-
-        day.addTextChangedListener(this);
-        month.addTextChangedListener(this);
-        year.addTextChangedListener(this);
-
-
-        image="";
-        if(fbuser!=null){
-
-            firstname.setText(fbuser.firstname);
-            lastname.setText(fbuser.secondname);
-            Picasso.get().load(fbuser.imageurl).fit().into(profile_picture);
-            image=fbuser.imageurl;
-
-        }
-
-        gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                gen=adapterView.getItemAtPosition(i).toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        go.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
+//        day.addTextChangedListener(new TextWatcher(){
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                // TODO Auto-generated method stub
+//                if(dateOfBirth.length()==0&day.length()==2)
+//                {
+//                    dateOfBirth.append(s);
+//                    day.clearFocus();
+//                    month.requestFocus();
+//                    month.setCursorVisible(true);
+//                }
+//            }
+//
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                if(dateOfBirth.length()==2)
+//                {
+//                    dateOfBirth.deleteCharAt(0);
+//                    dateOfBirth.deleteCharAt(1);
+//                }
+//
+//            }
+//
+//            public void afterTextChanged(Editable s) {
+//                if(dateOfBirth.length()==0)
+//                {
+//                    day.requestFocus();
+//                }
+//
+//            }
+//        });
+//
+//        month.addTextChangedListener(new TextWatcher(){
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                // TODO Auto-generated method stub
+//                if(month.length()==2)
+//                {
+//                    dateOfBirth.append(s);
+//                    month.clearFocus();
+//                    year.requestFocus();
+//                    year.setCursorVisible(true);
+//
+//                }
+//            }
+//
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                if(dateOfBirth.length()==2)
+//                {
+//                    dateOfBirth.deleteCharAt(0);
+//                }
+//
+//            }
+//
+//            public void afterTextChanged(Editable s) {
+//                if(dateOfBirth.length()==0)
+//                {
+//                    month.requestFocus();
+//                }
+//
+//            }
+//        });
+//        year.addTextChangedListener(new TextWatcher(){
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                // TODO Auto-generated method stub
+//                if(year.length()==4)
+//                {
+//                    dateOfBirth.append(s);
+//                    month.clearFocus();
+//                    year.requestFocus();
+//                    year.setCursorVisible(true);
+//                }
+//            }
+//
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                if(dateOfBirth.length()==2)
+//                {
+//                    dateOfBirth.deleteCharAt(0);
+//
+//                }
+//
+//            }
+//
+//            public void afterTextChanged(Editable s) {
+//                if(dateOfBirth.length()==0)
+//                {
+//                    month.requestFocus();
+//                }
+//
+//            }
+//        });
+//
+//        day.addTextChangedListener(this);
+//        month.addTextChangedListener(this);
+//        year.addTextChangedListener(this);
+//
+//
+//        image="";
+//        if(fbuser!=null){
+//
+//            firstname.setText(fbuser.firstname);
+//            lastname.setText(fbuser.secondname);
+//            Picasso.get().load(fbuser.imageurl).fit().into(profile_picture);
+//            image=fbuser.imageurl;
+//
+//        }
+//
+//        gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                gen=adapterView.getItemAtPosition(i).toString();
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//
+//        go.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//
+//
+//    }
+//
+//    @Override
+//    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//    }
+//
+//    @Override
+//    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//    }
+//
+//    @Override
+//    public void afterTextChanged(Editable s) {
+//
+//    }
+//
     }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
-
-
 }

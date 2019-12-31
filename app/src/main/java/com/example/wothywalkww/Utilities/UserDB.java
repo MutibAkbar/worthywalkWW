@@ -1,6 +1,7 @@
 package com.example.wothywalkww.Utilities;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,8 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -28,12 +31,11 @@ import java.util.concurrent.Executor;
 import static com.facebook.FacebookSdk.getApplicationContext;
 public class UserDB {
 
-    private FirebaseAuth mAuth;
-    private boolean flag = false;
+    public FirebaseAuth mAuth;
+    public boolean flag ;
     public static String TAG = "facebook login";
     FirebaseFirestore db;
     String id;
-    Login login = new Login();
 
     public UserDB() {
         mAuth = FirebaseAuth.getInstance();
@@ -41,41 +43,53 @@ public class UserDB {
 
     }
 
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
+    public FirebaseAuth returnAuth(){
+        return mAuth;
+    }
+
     public boolean signUp(final String id, String p1, String p2) {
+        flag=false;
         if (p1.equals(p2)) {
-            mAuth.createUserWithEmailAndPassword(id, p1).addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-
+             mAuth.createUserWithEmailAndPassword(id, p1).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
                         flag = true;
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "SignUp Successfully", Toast.LENGTH_SHORT).show();
                     }
-                }
-            });
-
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error,TryAgain!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Password Mismatch", Toast.LENGTH_SHORT).show();
         }
         return flag;
     }
 
+
     public void forgetPassword(String email) {
         if (email.length() > 3) {
-            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getApplicationContext(), "Email sent", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
 
-                            }
-                        }
-                    });
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(getApplicationContext(), "Email sent", Toast.LENGTH_LONG).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
         } else {
             Toast.makeText(getApplicationContext(), "Enter correct email address", Toast.LENGTH_LONG).show();
-
 
         }
 
@@ -101,22 +115,26 @@ public class UserDB {
         return id;
     }
 
+
     public void validateUser(final String emailid, String pass) {
         final Login login = new Login();
-        mAuth.signInWithEmailAndPassword(emailid, pass).addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(emailid,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             User user = new User();
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    login.getdoc(id=mAuth.getCurrentUser().getUid(),db);
+            public void onSuccess(AuthResult authResult) {
+                   id=mAuth.getCurrentUser().getUid();
+                   login.getdoc(id,getDb());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
-                } else {
-                    Toast.makeText(getApplicationContext(), "ID or Password Incorrect", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(getApplicationContext(), "ID or Password Incorrect", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
 
     public void loaduserprofile(final AccessToken accessToken){
 
@@ -150,6 +168,7 @@ public class UserDB {
 
     public void handleFacebookAccessToken(final AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
+        final Login login = new Login();
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
