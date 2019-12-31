@@ -34,6 +34,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
@@ -134,12 +135,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                UserDB userDB = new UserDB();
                 String emailid = emailAddress.getText().toString().trim();
                 String pass = password.getText().toString().trim();
 
                 if (!emailid.isEmpty() && !pass.isEmpty()) {
                     pbloading.setVisibility(View.VISIBLE);
-                    userdb.validateUser(emailid, pass);
+                    userDB.validateUser(emailid, pass);
                 } else
                     Toast.makeText(getApplicationContext(), "Enter Email /Password ", Toast.LENGTH_LONG).show();
 
@@ -261,8 +263,6 @@ public class Login extends AppCompatActivity {
         }
 
     }
-
-
 
 
 }
