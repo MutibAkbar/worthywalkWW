@@ -28,13 +28,9 @@ public class RegisterPresenter {
 
 
 
-
-
     public void setfb(Fbuser fbuser){
 
         view.updatefbdetails(fbuser);
-
-
 
     }
 
@@ -62,18 +58,15 @@ public class RegisterPresenter {
     public boolean checkData(){
         user=sessionManagement.getUser();
 
-        if(user!=null) view.updateEditText(user);
-        return user!=null;
+        if(user!=null)
+            view.updateEditText(user);
+        return true;
     }
 
     public interface View{
 
         void  updateEditText(User user);
         void  updatefbdetails(Fbuser fbuser);
-
-
-
-
 
 
     }

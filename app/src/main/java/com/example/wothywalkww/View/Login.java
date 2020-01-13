@@ -64,8 +64,8 @@ public class Login extends AppCompatActivity {
     Fbuser fBuser;
     private static final String EMAIL = "email";
     public User user = new User();
-    final UserDB userdb = new UserDB();
 
+    final UserDB userdb = new UserDB();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

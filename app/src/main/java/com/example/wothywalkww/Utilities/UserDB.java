@@ -1,14 +1,18 @@
 package com.example.wothywalkww.Utilities;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.wothywalkww.Model.Fbuser;
 import com.example.wothywalkww.Model.User;
 import com.example.wothywalkww.View.Login;
+import com.example.wothywalkww.View.MainActivity;
+import com.example.wothywalkww.View.Register;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -21,12 +25,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import static com.facebook.FacebookSdk.getApplicationContext;
 public class UserDB {
@@ -35,13 +43,16 @@ public class UserDB {
     public boolean flag ;
     public static String TAG = "facebook login";
     FirebaseFirestore db;
+    FirebaseUser users;
     String id;
 
     public UserDB() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        users = mAuth.getCurrentUser();
 
     }
+
 
     public FirebaseFirestore getDb() {
         return db;
@@ -49,8 +60,12 @@ public class UserDB {
 
     public FirebaseAuth returnAuth(){
         return mAuth;
+
     }
 
+    public FirebaseUser returnUser(){
+        return users;
+    }
     public boolean signUp(final String id, String p1, String p2) {
         flag=false;
         if (p1.equals(p2)) {
@@ -190,18 +205,115 @@ public class UserDB {
 
                         }
 
-                        // ...
                     }
                 });
     }
 
-    public void setdata(User user){
-
-
-    }
 
     public void signOut(){
         mAuth.signOut();
     }
 
+
+    public void sendata(final User user, String uid) {
+        final Map<String, Object> docData2 = new HashMap<>();
+        final Map<String, Object> docData3 = new HashMap<>();
+        final Map<String, Object> docData = new HashMap<>();
+
+        docData.put("Firstname", user.FirstName);
+        docData.put("Lastname", user.LastName);
+        docData.put("Email", user.Email);
+        docData.put("Phone", user.Phone);
+        docData.put("Gender", user.Gender);
+        docData.put("Height", user.Height);
+        docData.put("Weight", user.Weight);
+        docData.put("Age", user.Age);
+        docData.put("DOB", user.Dob);
+        docData.put("Knubs", 500);
+        docData.put("Profilepicture",user.ImageUrl);
+        docData.put("Totalknubs",user.totalKnubs);
+        docData.put("Permission",user.permission);
+        docData.put("Token",user.Token);
+        docData2.put("Totalcalorie",0.0);
+        docData2.put("Totaldistance",0.0);
+        docData2.put("Totalsteps",0);
+        docData2.put("Totalknubs",500);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final Register register = new Register();
+        final DocumentReference docRef= db.collection("Users").document(uid);
+        final DocumentReference docRef2=db.collection("Monthlywalk").document(uid);
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+
+                transaction.set(docRef,docData );
+                transaction.set(docRef2,docData2);
+                return null;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                register.failure();
+                Toast.makeText(getApplicationContext(), e.getMessage() , Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                 register.success(user);
+
+            }
+        });
+    }
+
+    public void updatedata(final User user, String uid) {
+        final Map<String, Object> docData = new HashMap<>();
+
+        docData.put("Firstname", user.FirstName);
+        docData.put("Lastname", user.LastName);
+        docData.put("Phone", user.Phone);
+        docData.put("Gender", user.Gender);
+        docData.put("Email", user.Email);
+        docData.put("Height", user.Height);
+        docData.put("Weight", user.Weight);
+        docData.put("Age", user.Age);
+        docData.put("DOB", user.Dob);
+        docData.put("Knubs",user.Knubs );
+        docData.put("Profilepicture",user.ImageUrl);
+        docData.put("Totalknubs",user.totalKnubs);
+        docData.put("Permission",user.permission);
+        docData.put("Token",user.Token);
+
+        final Register register = new Register();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference docRef= db.collection("Users").document(uid);
+        final DocumentReference docRef2=db.collection("Monthlywalk").document(uid);
+        db.runTransaction(new Transaction.Function<Void>() {
+            @Nullable
+            @Override
+            public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                transaction.set(docRef,docData );
+                return null;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                register.failure();
+                Toast.makeText(getApplicationContext(), e.getMessage() , Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                register.success1(user);
+            }
+        });
+
+    }
+
+
+
 }
+
