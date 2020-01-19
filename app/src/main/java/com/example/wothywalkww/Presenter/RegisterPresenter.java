@@ -58,16 +58,20 @@ public class RegisterPresenter {
     public boolean checkData(){
         user=sessionManagement.getUser();
 
-        if(user!=null)
+        if(user!=null){
             view.updateEditText(user);
-        return true;
+            return true;
+
+        }
+        return false;
+
     }
 
     public interface View{
 
         void  updateEditText(User user);
         void  updatefbdetails(Fbuser fbuser);
-
+        void  updatingValues();
 
     }
 

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.wothywalkww.Model.Fbuser;
 import com.example.wothywalkww.Model.User;
+import com.example.wothywalkww.Presenter.LoginPresenter;
 import com.example.wothywalkww.R;
 import com.example.wothywalkww.Utilities.UserDB;
 import com.facebook.AccessToken;
@@ -43,7 +44,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements LoginPresenter {
 
     private EditText emailAddress;
     private EditText password;
@@ -114,13 +115,7 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-        boolean flag = userdb.getUser();
-        if (flag) {
-
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+       checkUser();
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,16 +130,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                UserDB userDB = new UserDB();
-                String emailid = emailAddress.getText().toString().trim();
-                String pass = password.getText().toString().trim();
-
-                if (!emailid.isEmpty() && !pass.isEmpty()) {
-                    pbloading.setVisibility(View.VISIBLE);
-                    userDB.validateUser(emailid, pass);
-                } else
-                    Toast.makeText(getApplicationContext(), "Enter Email /Password ", Toast.LENGTH_LONG).show();
-
+                signInButton();
             }
         });
 
@@ -173,6 +159,7 @@ public class Login extends AppCompatActivity {
     };
 
 
+    @Override
     public void getdoc(String id, final FirebaseFirestore db) {
         db.collection("Users").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -210,6 +197,7 @@ public class Login extends AppCompatActivity {
 
     }
 
+    @Override
     public void sendnewtoken(FirebaseFirestore db) {
         token = sharedpreferences.getString("Token","");
         db.collection("Monthlywalk").document(userdb.getID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -265,4 +253,28 @@ public class Login extends AppCompatActivity {
     }
 
 
+    @Override
+    public void checkUser() {
+        boolean flag = userdb.getUser();
+        if (flag) {
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
+    public void signInButton() {
+        UserDB userDB = new UserDB();
+        String emailid = emailAddress.getText().toString().trim();
+        String pass = password.getText().toString().trim();
+
+        if (!emailid.isEmpty() && !pass.isEmpty()) {
+            pbloading.setVisibility(View.VISIBLE);
+            userDB.validateUser(emailid, pass);
+        } else
+            Toast.makeText(getApplicationContext(), "Enter Email /Password ", Toast.LENGTH_LONG).show();
+
+    }
 }

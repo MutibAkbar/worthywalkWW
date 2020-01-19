@@ -99,7 +99,6 @@ public class Register extends AppCompatActivity implements TextWatcher, Register
 
         day.addTextChangedListener(new TextWatcher(){
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO Auto-generated method stub
                 if(dateOfBirth.length()==0&day.length()==2)
                 {
                     dateOfBirth.append(s);
@@ -107,6 +106,7 @@ public class Register extends AppCompatActivity implements TextWatcher, Register
                     month.requestFocus();
                     month.setCursorVisible(true);
                 }
+
             }
 
 
@@ -219,67 +219,7 @@ public class Register extends AppCompatActivity implements TextWatcher, Register
             @Override
             public void onClick(View v) {
 
-                UserDB userdb = new UserDB();
-                if (pn && ht && wt && dy && mn && yr) {
-                    pbloading.setVisibility(View.VISIBLE);
-                    fname = firstname.getText().toString();
-                    fname = fname.substring(0, 1).toUpperCase() + fname.substring(1);
-                    lname = lastname.getText().toString();
-                    lname = lname.substring(0, 1).toUpperCase() + lname.substring(1);
-                    phn = phone.getText().toString();
-                    phn = "+92" + phn;
-                    hei = Float.parseFloat(height.getText().toString());
-                    wei = Float.parseFloat(weight.getText().toString());
-                    days = day.getText().toString();
-                    months = month.getText().toString();
-                    years = year.getText().toString();
-
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                    String dob = years + months + days;
-                    Date d = null;
-                    try {
-                        d = sdf.parse(dob);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Date currentTime = Calendar.getInstance().getTime();
-                    int age = Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(years);
-                    User user;
-                    String token = sharedpreferences.getString("Token", "");
-
-                    if (fbuser != null)
-                        user = new User(fbuser.email,fname, lname, phn, gend, hei, wei, age, d, 500, fbuser.imageurl, 500, false, token);
-                    else if(update){
-
-                        user = new User(updateuser.Email,fname, lname, phn, gend, hei, wei, age, d, updateuser.Knubs, "", updateuser.totalKnubs, false, token);
-                    }else
-                        user = new User(Email,fname, lname, phn, gend, hei, wei, age, d, 500, "", 500, false, token);
-
-                    String userjson = gson.toJson(user);
-                    SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
-                    prefsEditor.putBoolean("Newuser",true);
-                    prefsEditor.putString("User", userjson);
-
-                    if(!update){
-                        prefsEditor.putFloat("Totaldistance", 0);
-                        prefsEditor.putFloat("Totalcalorie", 0);
-                        prefsEditor.putInt("Totalknubs", 0);
-                        prefsEditor.putInt("Totalsteps", 0);
-
-                    }
-                    prefsEditor.commit();
-                    if(update){
-                          userdb.updatedata(user, userdb.returnUser().getUid());
-
-                    }else {
-                         userdb.sendata(user,userdb.returnUser().getUid());
-
-                    }
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),"Form Validation failed , please provide the correct Information !",Toast.LENGTH_LONG).show();
-
-                }
+               updatingValues();
             }
         });
 
@@ -352,8 +292,6 @@ public class Register extends AppCompatActivity implements TextWatcher, Register
         else yr=true;
 
 
-
-
         if(height.getText().toString().length()==0){
             ht=false;
             height.setError("can not be empty");
@@ -399,9 +337,75 @@ public class Register extends AppCompatActivity implements TextWatcher, Register
         image=fbuser.imageurl;
     }
 
+    @Override
+    public void updatingValues() {
+        UserDB userdb = new UserDB();
+        if (pn && ht && wt && dy && mn && yr) {
+            pbloading.setVisibility(View.VISIBLE);
+            fname = firstname.getText().toString();
+            fname = fname.substring(0, 1).toUpperCase() + fname.substring(1);
+            lname = lastname.getText().toString();
+            lname = lname.substring(0, 1).toUpperCase() + lname.substring(1);
+            phn = phone.getText().toString();
+            phn = "+92" + phn;
+            hei = Float.parseFloat(height.getText().toString());
+            wei = Float.parseFloat(weight.getText().toString());
+            days = day.getText().toString();
+            months = month.getText().toString();
+            years = year.getText().toString();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            String dob = years + months + days;
+            Date d = null;
+            try {
+                d = sdf.parse(dob);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date currentTime = Calendar.getInstance().getTime();
+            int age = Calendar.getInstance().get(Calendar.YEAR) - Integer.parseInt(years);
+            User user;
+            String token = sharedpreferences.getString("Token", "");
+
+            if (fbuser != null)
+                user = new User(fbuser.email,fname, lname, phn, gend, hei, wei, age, d, 500, fbuser.imageurl, 500, false, token);
+            else if(update){
+
+                user = new User(updateuser.Email,fname, lname, phn, gend, hei, wei, age, d, updateuser.Knubs, "", updateuser.totalKnubs, false, token);
+            }else
+                user = new User(Email,fname, lname, phn, gend, hei, wei, age, d, 500, "", 500, false, token);
+
+            String userjson = gson.toJson(user);
+            SharedPreferences.Editor prefsEditor = sharedpreferences.edit();
+            prefsEditor.putBoolean("Newuser",true);
+            prefsEditor.putString("User", userjson);
+
+            if(!update){
+                prefsEditor.putFloat("Totaldistance", 0);
+                prefsEditor.putFloat("Totalcalorie", 0);
+                prefsEditor.putInt("Totalknubs", 0);
+                prefsEditor.putInt("Totalsteps", 0);
+
+            }
+            prefsEditor.commit();
+            if(update){
+                userdb.updatedata(user, userdb.returnUser().getUid());
+
+            }else {
+                userdb.sendata(user,userdb.returnUser().getUid());
+
+            }
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"Form Validation failed , please provide the correct Information !",Toast.LENGTH_LONG).show();
+
+        }
+    }
+
     public void failure(){
         pbloading.setVisibility(View.GONE);
     }
+
     public  void success(User user){
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("User",user);

@@ -40,7 +40,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class UserDB {
 
     public FirebaseAuth mAuth;
-    public boolean flag ;
+    public boolean flag;
     public static String TAG = "facebook login";
     FirebaseFirestore db;
     FirebaseUser users;
@@ -66,24 +66,27 @@ public class UserDB {
     public FirebaseUser returnUser(){
         return users;
     }
+
     public boolean signUp(final String id, String p1, String p2) {
-        flag=false;
         if (p1.equals(p2)) {
              mAuth.createUserWithEmailAndPassword(id, p1).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
                     public void onSuccess(AuthResult authResult) {
-                        flag = true;
                         Toast.makeText(getApplicationContext(), "SignUp Successfully", Toast.LENGTH_SHORT).show();
+                        flag = true;
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getApplicationContext(), "Error,TryAgain!", Toast.LENGTH_SHORT).show();
+                        flag=false;
                     }
                 });
         }
         else{
             Toast.makeText(getApplicationContext(), "Password Mismatch", Toast.LENGTH_SHORT).show();
+            flag=false;
         }
         return flag;
     }
